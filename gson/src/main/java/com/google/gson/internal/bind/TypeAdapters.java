@@ -136,7 +136,7 @@ public final class TypeAdapters {
       JsonToken peek = in.peek();
       if (peek == JsonToken.NULL) {
         in.nextNull();
-        return null;
+        return false;
       } else if (peek == JsonToken.STRING) {
         // support strings for compatibility with GSON 1.7
         return Boolean.parseBoolean(in.nextString());
@@ -157,7 +157,7 @@ public final class TypeAdapters {
     @Override public Boolean read(JsonReader in) throws IOException {
       if (in.peek() == JsonToken.NULL) {
         in.nextNull();
-        return null;
+        return false;
       }
       return Boolean.valueOf(in.nextString());
     }

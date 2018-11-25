@@ -232,7 +232,7 @@ public class TestTypes {
     // Nothing here..
     @Override
     public boolean equals(Object other) {
-      return other.getClass() == ClassWithNoFields.class;
+      return other.getClass() == this.getClass();
     }
   }
 
