@@ -103,7 +103,9 @@ public final class LinkedTreeMapTest extends TestCase {
     LinkedTreeMap<String, String> map = new LinkedTreeMap<String, String>();
     String[] keys = new String[1000];
     for (int i = 0; i < keys.length; i++) {
-      keys[i] = Integer.toString(Math.abs(random.nextInt()), 36) + "-" + i;
+      int n = random.nextInt();
+      if(n == Integer.MIN_VALUE) n++;
+      keys[i] = Integer.toString(Math.abs(n), 36) + "-" + i;
       map.put(keys[i], "" + i);
     }
 

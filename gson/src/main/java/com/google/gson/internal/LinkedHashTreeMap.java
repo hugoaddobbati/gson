@@ -358,7 +358,7 @@ public final class LinkedHashTreeMap<K, V> extends AbstractMap<K, V> implements 
 
 			int delta = leftHeight - rightHeight;
 			if (delta == -2) {
-				int rightDelta = deltaMinusTwo(right);
+				int rightDelta = deltaTwo(right);
 				if (rightDelta == -1 || (rightDelta == 0 && !insert)) {
 					rotateLeft(node); // AVL right right
 				} else {
@@ -371,7 +371,19 @@ public final class LinkedHashTreeMap<K, V> extends AbstractMap<K, V> implements 
 				}
 
 			} else if (delta == 2) {
-				deltaTwo(insert, node, left);
+				Node<K, V> leftLeft = left.left;
+				Node<K, V> leftRight = left.right;
+				int leftRightHeight = leftRight != null ? leftRight.height : 0;
+				int leftLeftHeight = leftLeft != null ? leftLeft.height : 0;
+
+				int leftDelta = leftLeftHeight - leftRightHeight;
+				if (leftDelta == 1 || (leftDelta == 0 && !insert)) {
+					rotateRight(node); // AVL left left
+				} else {
+					assert (leftDelta == -1);
+					rotateLeft(left); // AVL left right
+					rotateRight(node);
+				}
 				if (insert) {
 					break; // no further rotations will be necessary
 				}
@@ -392,23 +404,7 @@ public final class LinkedHashTreeMap<K, V> extends AbstractMap<K, V> implements 
 		}
 	}
 
-	private void deltaTwo(boolean insert, Node<K, V> node, Node<K, V> left) {
-		Node<K, V> leftLeft = left.left;
-		Node<K, V> leftRight = left.right;
-		int leftRightHeight = leftRight != null ? leftRight.height : 0;
-		int leftLeftHeight = leftLeft != null ? leftLeft.height : 0;
-
-		int leftDelta = leftLeftHeight - leftRightHeight;
-		if (leftDelta == 1 || (leftDelta == 0 && !insert)) {
-			rotateRight(node); // AVL left left
-		} else {
-			assert (leftDelta == -1);
-			rotateLeft(left); // AVL left right
-			rotateRight(node);
-		}
-	}
-
-	private int deltaMinusTwo(Node<K, V> right) {
+	private int deltaTwo(Node<K, V> right) {
 		Node<K, V> rightLeft = right.left;
 		Node<K, V> rightRight = right.right;
 		int rightRightHeight = rightRight != null ? rightRight.height : 0;
