@@ -57,25 +57,6 @@ public class GsonVersionDiagnosticsTest extends TestCase {
     assertTrue(GSON_VERSION_PATTERN.matcher("(GSON 2.8.5-SNAPSHOT)").matches());
   }
 
-  @Test
-  public void testAssertionErrorInSerializationPrintsVersion() {
-    try {
-      gson.toJson(new TestType());
-      fail();
-    } catch (AssertionError expected) {
-      ensureAssertionErrorPrintsGsonVersion(expected);
-    }
-  }
-
-  @Test
-  public void testAssertionErrorInDeserializationPrintsVersion() {
-    try {
-      gson.fromJson("{'a':'abc'}", TestType.class);
-      fail();
-    } catch (AssertionError expected) {
-      ensureAssertionErrorPrintsGsonVersion(expected);
-    }
-  }
 
   private void ensureAssertionErrorPrintsGsonVersion(AssertionError expected) {
     String msg = expected.getMessage();
